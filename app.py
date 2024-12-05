@@ -66,7 +66,7 @@ def customer_microservice(route):
             url=f'{customer_microservice_url}/{route}',
             method=request.method,
             headers={key: value for key, value in request.headers if key != "Host"},
-            data=request.get_json(silent=True)
+            json=request.get_json(silent=True)
         )
 
         return response.text, response.status_code, response.headers.items()
@@ -102,7 +102,7 @@ def cars_microservice(route):
             url=f'{cars_microservice_url}/{route}',
             method=request.method,
             headers={key: value for key, value in request.headers if key != "Host"},
-            data=request.get_json(silent=True)
+            json=request.get_json(silent=True)
         )
         
         return response.text, response.status_code, response.headers.items()
@@ -137,7 +137,7 @@ def subscription_microservice(route):
             url=f'{subscription_microservice_url}/{route}',
             method=request.method,
             headers={key: value for key, value in request.headers if key != "Host"},
-            data=request.get_json(silent=True)
+            json=request.get_json(silent=True)
         )
         
         return response.text, response.status_code, response.headers.items()
