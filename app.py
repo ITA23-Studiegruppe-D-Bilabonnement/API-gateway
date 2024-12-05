@@ -43,6 +43,21 @@ def homepoint():
 
 
 # CUSTOMER MICROSERVICE
+#Handle the - "/" endpoint
+@app.route("/api/customer", methods=["GET"])
+def customer_microservice_homepoint():
+    try:
+        response = requests.get(customer_microservice_url)
+
+        return response.text, response.status_code, response.headers.items()
+
+    except Exception as e:
+        return jsonify({
+            "Error": "OOPS! Something went wrong :(",
+            "Message": f'{e}'
+        }), 500
+
+#Handle the rest of request to the microservice
 @app.route("/api/customer/<path:route>", methods=["GET","POST","DELETE"])
 def customer_microservice(route):
 
@@ -62,7 +77,23 @@ def customer_microservice(route):
             "Message": f'{e}'
         }), 500
 
+
 #CARS MICROSERVICE
+#Handle the - "/" endpoint
+@app.route("/api/cars", methods=["GET"])
+def cars_microservice_homepoint():
+    try:
+        response = requests.get(cars_microservice_url)
+
+        return response.text, response.status_code, response.headers.items()
+
+    except Exception as e:
+        return jsonify({
+            "Error": "OOPS! Something went wrong :(",
+            "Message": f'{e}'
+        }), 500
+
+#Handle the rest of request to the microservice
 @app.route("/api/cars/<path:route>", methods=["GET","POST","DELETE"])
 def cars_microservice(route):
 
@@ -83,6 +114,21 @@ def cars_microservice(route):
         }), 500
 
 #SUBSCRIPTION MICROSERVICE
+#Handle the - "/" endpoint
+@app.route("/api/subscription", methods=["GET"])
+def subscription_microservice_homepoint():
+    try:
+        response = requests.get(subscription_microservice_url)
+
+        return response.text, response.status_code, response.headers.items()
+
+    except Exception as e:
+        return jsonify({
+            "Error": "OOPS! Something went wrong :(",
+            "Message": f'{e}'
+        }), 500
+
+#Handle the rest of request to the microservice
 @app.route("/api/customer/<path:route>", methods=["GET","POST","DELETE"])
 def subscription_microservice(route):
 
