@@ -12,8 +12,8 @@ load_dotenv()
 
 app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY')
 customer_microservice_url = os.getenv('CUSTOMER_MICROSERVICE', "https://customer-microservice-b4dsccfkbffjh5cv.northeurope-01.azurewebsites.net")
-cars_microservice_url = os.getenv('CARS_MICROSERVICE')
-subscription_microservice_url = os.getenv('SUBSCRIPTION_MICROSERVICE')
+cars_microservice_url = os.getenv('CARS_MICROSERVICE', "https://cars-microservice-a7g2hqakb2cjffef.northeurope-01.azurewebsites.net")
+subscription_microservice_url = os.getenv('SUBSCRIPTION_MICROSERVICE', "https://subscription-microservice-gxbuenczgcd5hfe4.northeurope-01.azurewebsites.net")
 jwt = JWTManager(app)
 
 # Initialize Swagger
@@ -129,7 +129,7 @@ def subscription_microservice_homepoint():
         }), 500
 
 #Handle the rest of request to the microservice
-@app.route("/api/customer/<path:route>", methods=["GET","POST","DELETE"])
+@app.route("/api/subscription/<path:route>", methods=["GET","POST","DELETE"])
 def subscription_microservice(route):
 
     try:
