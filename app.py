@@ -45,13 +45,13 @@ def homepoint():
 # CUSTOMER MICROSERVICE
 @app.route("/api/customer/<path:route>", methods=["GET","POST","DELETE"])
 def customer_microservice(route):
-    
+
     try:
         response = requests.request(
-            method=request.method,
             url=f'{customer_microservice_url}/{route}',
-            headers=request.headers,
-            json=request.get_json(silent=True)
+            method=request.method,
+            headers={key: value for key, value in request.headers if key != "Host"},
+            data=request.get_json(silent=True)
         )
 
         return response.text, response.status_code, response.headers.items()
@@ -61,11 +61,46 @@ def customer_microservice(route):
             "Error": "OOPS! Something went wrong :(",
             "Message": f'{e}'
         }), 500
-        
 
 #CARS MICROSERVICE
+@app.route("/api/cars/<path:route>", methods=["GET","POST","DELETE"])
+def cars_microservice(route):
+
+    try:
+        response = requests.request(
+            url=f'{cars_microservice_url}/{route}',
+            method=request.method,
+            headers={key: value for key, value in request.headers if key != "Host"},
+            data=request.get_json(silent=True)
+        )
+        
+        return response.text, response.status_code, response.headers.items()
+    
+    except Exception as e:
+        return jsonify({
+            "Error": "OOPS! Something went wrong :(",
+            "Message": f'{e}'
+        }), 500
 
 #SUBSCRIPTION MICROSERVICE
+@app.route("/api/customer/<path:route>", methods=["GET","POST","DELETE"])
+def subscription_microservice(route):
+
+    try:
+        response = requests.request(
+            url=f'{subscription_microservice_url}/{route}',
+            method=request.method,
+            headers={key: value for key, value in request.headers if key != "Host"},
+            data=request.get_json(silent=True)
+        )
+        
+        return response.text, response.status_code, response.headers.items()
+    
+    except Exception as e:
+        return jsonify({
+            "Error": "OOPS! Something went wrong :(",
+            "Message": f'{e}'
+        }), 500
 
 if __name__ == "__main__":
     app.run(debug=True)
