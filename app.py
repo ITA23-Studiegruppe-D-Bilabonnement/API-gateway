@@ -4,6 +4,7 @@ import os
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
 from dotenv import load_dotenv
 from flasgger import swag_from
+from swagger.swagger_config import init_swagger
 
 app = Flask(__name__)
 
@@ -17,7 +18,7 @@ subscription_microservice_url = os.getenv('SUBSCRIPTION_MICROSERVICE', "https://
 jwt = JWTManager(app)
 
 # Initialize Swagger
-#init_swagger(app) 
+init_swagger(app) 
 
 
 # Documentaion endpoint
@@ -28,7 +29,8 @@ def homepoint():
         "AVAILABLE ENDPOINTS": [
             {
             "MICROSERVICE": "CUSTOMER-MICROSERVICE",
-            "PATH": "/api/customer"
+            "PATH": "/api/customer",
+            "AVAILABLE ENDPOINTS": []
             },
             {
             "MICROSERVICE": "SUBSCRIPTION-MICROSERVICE",
@@ -42,7 +44,7 @@ def homepoint():
     })
 
 
-# CUSTOMER MICROSERVICE
+# CUSTOMER MICROSERVICE ***********************************************************************
 #Handle the - "/" endpoint
 @app.route("/api/customer", methods=["GET"])
 def customer_microservice_homepoint():
@@ -57,8 +59,9 @@ def customer_microservice_homepoint():
             "Message": f'{e}'
         }), 500
 
-#Handle the rest of request to the microservice
+#Handle the rest of requests to the microservice
 @app.route("/api/customer/<path:route>", methods=["GET","POST","DELETE"])
+@swag_from("swagger/api_customer.yaml")
 def customer_microservice(route):
 
     try:
@@ -78,7 +81,7 @@ def customer_microservice(route):
         }), 500
 
 
-#CARS MICROSERVICE
+#CARS MICROSERVICE *******************************************************************
 #Handle the - "/" endpoint
 @app.route("/api/cars", methods=["GET"])
 def cars_microservice_homepoint():
@@ -93,8 +96,9 @@ def cars_microservice_homepoint():
             "Message": f'{e}'
         }), 500
 
-#Handle the rest of request to the microservice
+#Handle the rest of requests to the microservice
 @app.route("/api/cars/<path:route>", methods=["GET","POST","DELETE"])
+@swag_from("swagger/api_cars.yaml")
 def cars_microservice(route):
 
     try:
@@ -113,7 +117,7 @@ def cars_microservice(route):
             "Message": f'{e}'
         }), 500
 
-#SUBSCRIPTION MICROSERVICE
+#SUBSCRIPTION MICROSERVICE ************************************************************
 #Handle the - "/" endpoint
 @app.route("/api/subscription", methods=["GET"])
 def subscription_microservice_homepoint():
@@ -128,8 +132,9 @@ def subscription_microservice_homepoint():
             "Message": f'{e}'
         }), 500
 
-#Handle the rest of request to the microservice
-@app.route("/api/subscription/<path:route>", methods=["GET","POST","DELETE"])
+#Handle the rest of requests to the microservice
+@app.route("/api/subscription/<path:route>", methods=["GET","POST","DELETE","PATCH"])
+@swag_from("swagger/api_subscription.yaml")
 def subscription_microservice(route):
 
     try:
