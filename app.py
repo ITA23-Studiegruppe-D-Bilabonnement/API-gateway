@@ -20,7 +20,6 @@ jwt = JWTManager(app)
 # Initialize Swagger
 init_swagger(app) 
 
-
 # Documentaion endpoint
 @app.route("/", methods=["GET"])
 def homepoint():
@@ -42,7 +41,6 @@ def homepoint():
             }
         ]
     })
-
 
 # CUSTOMER MICROSERVICE ***********************************************************************
 #Handle the - "/" endpoint
@@ -97,7 +95,7 @@ def cars_microservice_homepoint():
         }), 500
 
 #Handle the rest of requests to the microservice
-@app.route("/api/cars/<path:route>", methods=["GET","POST","DELETE"])
+@app.route("/api/cars/<path:route>", methods=["GET","POST","DELETE","PUT"])
 @swag_from("swagger/api_cars.yaml")
 def cars_microservice(route):
 
