@@ -43,7 +43,7 @@ def homepoint():
             {
             "MICROSERVICE": "CARS-MICROSERVICE",
             "PATH": "/api/cars",
-            "URL": f"{customer_microservice_url}",
+            "URL": f"{cars_microservice_url}",
             "AVAILABLE ENDPOINTS": []
             },
             {
