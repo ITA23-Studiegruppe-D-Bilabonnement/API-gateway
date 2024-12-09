@@ -23,6 +23,11 @@ swagger_config = {
                     "route": '/api/subscription',
                     "spec": '/swagger/api_subscription.yaml'
                 },
+                {
+                    "endpoint": 'Damage report Microservice',
+                    "route": '/api/damage',
+                    "spec": '/swagger/api_damage_report.yaml'
+                }
             ],
             "rule_filter": lambda rule: True,
             "model_filter": lambda tag: True,

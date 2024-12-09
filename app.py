@@ -15,6 +15,7 @@ app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY')
 customer_microservice_url = os.getenv('CUSTOMER_MICROSERVICE', "https://customer-microservice-b4dsccfkbffjh5cv.northeurope-01.azurewebsites.net")
 cars_microservice_url = os.getenv('CARS_MICROSERVICE', "https://cars-microservice-a7g2hqakb2cjffef.northeurope-01.azurewebsites.net")
 subscription_microservice_url = os.getenv('SUBSCRIPTION_MICROSERVICE', "https://subscription-microservice-gxbuenczgcd5hfe4.northeurope-01.azurewebsites.net")
+damage_report_microservice_url = os.getenv('DAMAGE_REPORT_MICROSERVICE', "https://damagereport-microservice-gpfchac2c4c9hzdc.northeurope-01.azurewebsites.net")
 jwt = JWTManager(app)
 
 # Initialize Swagger
@@ -23,24 +24,36 @@ init_swagger(app)
 # Documentaion endpoint
 @app.route("/", methods=["GET"])
 def homepoint():
+    
     return jsonify({
         "SERVICE": "API-GATEWAY SERVICE",
         "AVAILABLE ENDPOINTS": [
             {
             "MICROSERVICE": "CUSTOMER-MICROSERVICE",
             "PATH": "/api/customer",
+            "URL": f"{customer_microservice_url}",
             "AVAILABLE ENDPOINTS": []
             },
             {
             "MICROSERVICE": "SUBSCRIPTION-MICROSERVICE",
-            "PATH": "/api/subscription"
+            "PATH": "/api/subscription",
+            "URL": f"{subscription_microservice_url}",
+            "AVAILABLE ENDPOINTS": []
             },
             {
             "MICROSERVICE": "CARS-MICROSERVICE",
-            "PATH": "/api/cars"
+            "PATH": "/api/cars",
+            "URL": f"{customer_microservice_url}",
+            "AVAILABLE ENDPOINTS": []
+            },
+            {
+            "MICROSERVICE": "DAMAGE-REPORT-MICROSERVICE",
+            "PATH": "/api/damage",
+            "URL": f"{damage_report_microservice_url}",
+            "AVAILABLE ENDPOINTS": []
             }
         ]
-    })
+    }), 200
 
 # CUSTOMER MICROSERVICE ***********************************************************************
 #Handle the - "/" endpoint
@@ -138,6 +151,43 @@ def subscription_microservice(route):
     try:
         response = requests.request(
             url=f'{subscription_microservice_url}/{route}',
+            method=request.method,
+            headers={key: value for key, value in request.headers if key != "Host"},
+            json=request.get_json(silent=True)
+        )
+        
+        return response.text, response.status_code, response.headers.items()
+    
+    except Exception as e:
+        return jsonify({
+            "Error": "OOPS! Something went wrong :(",
+            "Message": f'{e}'
+        }), 500
+
+#DAMAGE REPORT MICROSERVICE ************************************************************
+#Handle the - "/" endpoint
+@app.route("/api/damage", methods=["GET"])
+def damage_microservice_homepoint():
+
+    try:
+        response = requests.get(damage_report_microservice_url)
+
+        return response.text, response.status_code, response.headers.items()
+    
+    except Exception as e:
+        return jsonify({
+            "Error": "OOPS! Something went wrong :(",
+            "Message": f'{e}'
+        }), 500
+
+#Handle the rest of requests to the microservice
+@app.route("/api/damage/<path:route>", methods=["GET","POST","DELETE","PATCH"])
+@swag_from("swagger/api_damage_report.yaml")
+def damage_report_microservice(route):
+
+    try:
+        response = requests.request(
+            url=f'{damage_report_microservice_url}/{route}',
             method=request.method,
             headers={key: value for key, value in request.headers if key != "Host"},
             json=request.get_json(silent=True)
