@@ -6,6 +6,13 @@ This Flask-based API Gateway serves as a single entry point for multiple microse
 
 ## Endpoints
 
+| HTTP Method | Action             | Example Endpoint     | Notes                                   |
+|-------------|--------------------|----------------------|-----------------------------------------|
+| `GET`       | Connect to customer microservice | `/api/customer` | Allows for the use of microservice. |
+| `GET`       | Connect to subscription microservice | `/api/subscription`| Allows for the use of microservice.|
+| `GET`       | Connect to cars microservice  | `/api/cars`        | Allows for the use of microservice. |
+
+
 ### **Home Endpoint**
 
 - **URL**: `/`
