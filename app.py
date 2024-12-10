@@ -86,12 +86,7 @@ def customer_microservice(route):
             json=request.get_json(silent=True)
         )
 
-        return jsonify({
-            "URL": f"{customer_microservice_url}/{route}",
-            "METHOD": request.method,
-            "HEADERS": request.headers,
-            "JSON": request.get_json()
-        })
+        return response.text, response.status_code, response.headers.items()
     
     except Exception as e:
         return jsonify({
