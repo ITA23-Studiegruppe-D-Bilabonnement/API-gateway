@@ -75,6 +75,12 @@ def customer_microservice_homepoint():
 @swag_from("swagger/api_customer.yaml")
 def customer_microservice(route):
 
+
+    app.logger.info(f"Received method: {request.method}")
+    app.logger.info(f"Headers: {request.headers}")
+    app.logger.info(f"URL: {customer_microservice_url}/{route}")
+    app.logger.info(f"Body: {request.get_json(silent=True)}")
+
     try:
         response = requests.request(
             url=f'{customer_microservice_url}/{route}',
