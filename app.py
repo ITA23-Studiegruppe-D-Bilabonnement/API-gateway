@@ -11,7 +11,7 @@ app = Flask(__name__)
 #Load the enviroment variables
 load_dotenv()
 
-app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY')
+app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY',"1234")
 customer_microservice_url = os.getenv('CUSTOMER_MICROSERVICE', "https://customer-microservice-b4dsccfkbffjh5cv.northeurope-01.azurewebsites.net")
 cars_microservice_url = os.getenv('CARS_MICROSERVICE', "https://cars-microservice-a7g2hqakb2cjffef.northeurope-01.azurewebsites.net")
 subscription_microservice_url = os.getenv('SUBSCRIPTION_MICROSERVICE', "https://subscription-microservice-gxbuenczgcd5hfe4.northeurope-01.azurewebsites.net")
@@ -76,10 +76,7 @@ def customer_microservice_homepoint():
 def customer_microservice(route):
 
 
-    app.logger.info(f"Received method: {request.method}")
-    app.logger.info(f"Headers: {request.headers}")
-    app.logger.info(f"URL: {customer_microservice_url}/{route}")
-    app.logger.info(f"Body: {request.get_json(silent=True)}")
+
 
     try:
         response = requests.request(
@@ -89,7 +86,12 @@ def customer_microservice(route):
             json=request.get_json(silent=True)
         )
 
-        return response.text, response.status_code, response.headers.items()
+        return jsonify({
+            "URL": f"{customer_microservice_url}/{route}",
+            "METHOD": request.method,
+            "HEADERS": request.headers,
+            "JSON": request.get_json()
+        })
     
     except Exception as e:
         return jsonify({
