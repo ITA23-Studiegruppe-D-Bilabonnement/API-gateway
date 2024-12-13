@@ -63,6 +63,8 @@ def homepoint():
 def customer_microservice(route):
 
     try:
+
+        app.logger.debug(f"Method {request.method}")
         response = requests.request(
             url=f'{customer_microservice_url}/{route}',
             method=request.method,
@@ -70,8 +72,8 @@ def customer_microservice(route):
             json=request.get_json(silent=True),
             allow_redirects=False
         )
-
-        return response.text, response.status_code, response.headers.items()
+        
+        return (response.content, response.status_code, response.headers.items())
     
     except Exception as e:
         return jsonify({
