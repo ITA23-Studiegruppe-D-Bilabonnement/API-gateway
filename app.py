@@ -68,7 +68,8 @@ def customer_microservice(route):
             method=request.method,
             headers={key: value for key, value in request.headers if key != "Host"},
             json=request.get_json(silent=True),
-            allow_redirects=False
+            allow_redirects=False,
+            cookies=request.cookies
         )
 
         return response.text, response.status_code, response.headers.items()
