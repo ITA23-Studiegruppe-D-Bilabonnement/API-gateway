@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, request
 import requests
 import os
-from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
+from flask_jwt_extended import JWTManager
 from dotenv import load_dotenv
 from flasgger import swag_from
 from swagger.swagger_config import init_swagger
@@ -56,61 +56,33 @@ def homepoint():
     }), 200
 
 # CUSTOMER MICROSERVICE ***********************************************************************
-#Handle the - "/" endpoint
-@app.route("/api/customer", methods=["GET"])
-def customer_microservice_homepoint():
-    try:
-        response = requests.get(customer_microservice_url)
 
-        return response.text, response.status_code, response.headers.items()
-
-    except Exception as e:
-        return jsonify({
-            "Error": "OOPS! Something went wrong :(",
-            "Message": f'{e}'
-        }), 500
-
-#Handle the rest of requests to the microservice
+# Handle the customer microservice endpoint
 @app.route("/api/customer/<path:route>", methods=["GET","POST","DELETE"])
 @swag_from("swagger/api_customer.yaml")
 def customer_microservice(route):
-
-
-
 
     try:
         response = requests.request(
             url=f'{customer_microservice_url}/{route}',
             method=request.method,
             headers={key: value for key, value in request.headers if key != "Host"},
-            json=request.get_json(silent=True)
+            json=request.get_json(silent=True),
+            allow_redirects=False
         )
 
         return response.text, response.status_code, response.headers.items()
     
     except Exception as e:
         return jsonify({
-            "Error": "OOPS! Something went wrong :(",
-            "Message": f'{e}'
+            "error": "OOPS! Something went wrong :(",
+            "message": f'{e}'
         }), 500
 
 
 #CARS MICROSERVICE *******************************************************************
-#Handle the - "/" endpoint
-@app.route("/api/cars", methods=["GET"])
-def cars_microservice_homepoint():
-    try:
-        response = requests.get(cars_microservice_url)
 
-        return response.text, response.status_code, response.headers.items()
-
-    except Exception as e:
-        return jsonify({
-            "Error": "OOPS! Something went wrong :(",
-            "Message": f'{e}'
-        }), 500
-
-#Handle the rest of requests to the microservice
+# Handle the cars microservice
 @app.route("/api/cars/<path:route>", methods=["GET","POST","DELETE","PUT"])
 @swag_from("swagger/api_cars.yaml")
 def cars_microservice(route):
@@ -127,26 +99,13 @@ def cars_microservice(route):
     
     except Exception as e:
         return jsonify({
-            "Error": "OOPS! Something went wrong :(",
-            "Message": f'{e}'
+            "error": "OOPS! Something went wrong :(",
+            "message": f'{e}'
         }), 500
 
 #SUBSCRIPTION MICROSERVICE ************************************************************
-#Handle the - "/" endpoint
-@app.route("/api/subscription", methods=["GET"])
-def subscription_microservice_homepoint():
-    try:
-        response = requests.get(subscription_microservice_url)
 
-        return response.text, response.status_code, response.headers.items()
-
-    except Exception as e:
-        return jsonify({
-            "Error": "OOPS! Something went wrong :(",
-            "Message": f'{e}'
-        }), 500
-
-#Handle the rest of requests to the microservice
+#Handle the subscription microservice
 @app.route("/api/subscription/<path:route>", methods=["GET","POST","DELETE","PATCH"])
 @swag_from("swagger/api_subscription.yaml")
 def subscription_microservice(route):
@@ -163,27 +122,13 @@ def subscription_microservice(route):
     
     except Exception as e:
         return jsonify({
-            "Error": "OOPS! Something went wrong :(",
-            "Message": f'{e}'
+            "error": "OOPS! Something went wrong :(",
+            "message": f'{e}'
         }), 500
 
 #DAMAGE REPORT MICROSERVICE ************************************************************
-#Handle the - "/" endpoint
-@app.route("/api/damage", methods=["GET"])
-def damage_microservice_homepoint():
 
-    try:
-        response = requests.get(damage_report_microservice_url)
-
-        return response.text, response.status_code, response.headers.items()
-    
-    except Exception as e:
-        return jsonify({
-            "Error": "OOPS! Something went wrong :(",
-            "Message": f'{e}'
-        }), 500
-
-#Handle the rest of requests to the microservice
+#Handle the damage report microservice
 @app.route("/api/damage/<path:route>", methods=["GET","POST","DELETE","PATCH"])
 @swag_from("swagger/api_damage_report.yaml")
 def damage_report_microservice(route):
@@ -200,8 +145,8 @@ def damage_report_microservice(route):
     
     except Exception as e:
         return jsonify({
-            "Error": "OOPS! Something went wrong :(",
-            "Message": f'{e}'
+            "error": "OOPS! Something went wrong :(",
+            "message": f'{e}'
         }), 500
 
 if __name__ == "__main__":
