@@ -56,6 +56,7 @@ def homepoint():
 
 # Dynamic gateway:
 @app.route("/<string:service>/<path:route>", methods=["GET","POST","PUT","PATCH","DELETE"])
+@swag_from("swagger/gateway.yaml")
 def gateway(service, route):
 
     #Check to see the provided service exists

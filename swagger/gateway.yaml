@@ -1,0 +1,88 @@
+tags:
+  - Gateway
+summary: "Dynamic gateway for forwarding requests"
+description: "This dynamic gateway forwards HTTP requests to a specified microservice and route. It supports multiple HTTP methods including GET, POST, PUT, PATCH, and DELETE."
+parameters:
+  - name: service
+    in: path
+    type: string
+    required: true
+    description: "Name of the microservice to forward the request to."
+    example: "customer"
+  - name: path
+    in: path
+    type: string
+    required: true
+    description: "The path to be appended to the microservice URL."
+    example: "customer/user/10"
+  - name: body
+    in: body
+    required: false
+    description: "Optional JSON payload for POST, PUT, and PATCH requests."
+    schema:
+      type: object
+  - name: Authorization
+    in: header
+    type: string
+    required: true
+    description: "JWT token for authorization."
+responses:
+  200:
+    description: "Request forwarded successfully"
+    content:
+      application/json:
+        schema:
+          type: object
+          additionalProperties: true
+  400:
+    description: "Bad request"
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "Invalid parameters or request format"
+            message:
+              type: string
+              example: "The request could not be understood or processed"
+  401:
+    description: "Unauthorized"
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "Unauthorized"
+            message:
+              type: string
+              example: "Missing or invalid authorization token"
+  404:
+    description: "Service not found"
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "Service not found"
+            message:
+              type: string
+              example: "The specified microservice could not be found"
+  500:
+    description: "Internal server error"
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "Internal server error"
+            message:
+              type: string
+              example: "An error occurred while forwarding the request"

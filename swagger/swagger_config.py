@@ -9,24 +9,9 @@ swagger_config = {
             "route": '/apispec.json',
             "specs": [
                 {
-                    "endpoint": 'Customer Microservice',
-                    "route": '/api/customer',
-                    "spec": '/swagger/api_customer.yaml'
-                },
-                {
-                    "endpoint": 'Cars Microservice',
-                    "route": '/api/cars',
-                    "spec": '/swagger/api_cars.yaml'
-                },
-                {
-                    "endpoint": 'Subscription Microservice',
-                    "route": '/api/subscription',
-                    "spec": '/swagger/api_subscription.yaml'
-                },
-                {
-                    "endpoint": 'Damage report Microservice',
-                    "route": '/api/damage',
-                    "spec": '/swagger/api_damage_report.yaml'
+                    "endpoint": 'Gateway service',
+                    "route": '/microservice/route',
+                    "spec": '/swagger/gateway_yaml'
                 }
             ],
             "rule_filter": lambda rule: True,
@@ -44,8 +29,8 @@ template = {
         "description": "API-Gateway service that handles all communication between the microservices and the user",
         "version": "1.0.0",
         "contact": {
-            "name": "KEA",
-            "url": "https://kea.dk"
+            "name": "API-Gateway",
+            "url": "https://api-gatewayservice-cbc0dydhctg9g0hk.northeurope-01.azurewebsites.net"
         }
     },
     "securityDefinitions": {
