@@ -35,7 +35,7 @@ project/
 
 - **URL**: `/`
 - **Method**: `GET`
-- **Description**: Provides a summary of the available microservices and their base paths.
+- **Description**: Provides a summary of the available endpoints
 - **Response**:
     ```json
     {
@@ -43,20 +43,19 @@ project/
         "AVAILABLE ENDPOINTS": [
             {
                 "MICROSERVICE": "CUSTOMER-MICROSERVICE",
-                "PATH": "/api/customer"
+                "PATHS": ["List of endpoints"]
             },
             {
                 "MICROSERVICE": "SUBSCRIPTION-MICROSERVICE",
-                "PATH": "/api/subscription"
+                "PATHS": ["List of endpoints"]
             },
             {
                 "MICROSERVICE": "CARS-MICROSERVICE",
-                "PATH": "/api/cars"
+                "PATHS": ["List of endpoints"]
             }
         ]
     }
     ```
-
 ---
 
 ### **Customer Microservice**
