@@ -4,6 +4,24 @@ This Flask-based API Gateway serves as a single entry point for multiple microse
 
 ---
 
+# File structure
+```
+project/
+├── app.py                   
+├── swagger/                 
+│   ├── gateway.yaml                
+│   ├── swagger_config.py    
+├── .dockerignore            
+├── .env                     
+├── .github/                 
+│   └── workflows/           
+│       └── main_API-gatewayservice.yml 
+├── .gitignore               
+├── Dockerfile               
+├── README.md                
+├── requirements.txt
+```
+
 ## Endpoints
 
 | HTTP Method | Action             | Example Endpoint     | Notes                                   |
