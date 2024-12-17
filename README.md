@@ -26,7 +26,7 @@ project/
 
 | HTTP Method | Action             | Example Endpoint     | Notes                                   |
 |-------------|--------------------|----------------------|-----------------------------------------|
-| `GET`,`POST`,`DELETE`,`PUT`,`PATCJ` | Connects to the specified microservice | `/<microservice>/<route>` | Allows for the use of microservices. |
+| `GET`,`POST`,`DELETE`,`PUT`,`PATCH` | Connects to the specified microservice | `/<microservice>/<route>` | Allows for the use of microservices. |
 
 
 ### **Home Endpoint**
