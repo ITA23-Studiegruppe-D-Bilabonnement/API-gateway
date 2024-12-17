@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, redirect
 import requests
 import os
 from flask_jwt_extended import JWTManager
@@ -65,6 +65,10 @@ def gateway(service, route):
             "error": "OOPS! Something went wrong :(",
             "message": "Couldnt find the microservice, please check your spelling!"
         }),404
+    
+    #Special handling for Swagger endpoints
+    if route in "docs":
+        return redirect(f"{microservice_list[service]}/{route}")
     
     #Send request to the provided microservice
     try:
